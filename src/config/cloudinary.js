@@ -1,5 +1,7 @@
-const { v2: cloudinary } = require('cloudinary');
-const env = require('./env');
+import cloudinaryPkg from 'cloudinary';
+import env from './env.js';
+
+const cloudinary = cloudinaryPkg.v2;
 
 const configured = Boolean(
   env.CLOUDINARY_CLOUD_NAME && env.CLOUDINARY_API_KEY && env.CLOUDINARY_API_SECRET
@@ -14,4 +16,4 @@ if (configured) {
   });
 }
 
-module.exports = { cloudinary, configured };
+export { cloudinary, configured };

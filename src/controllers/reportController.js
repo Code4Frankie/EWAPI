@@ -1,14 +1,14 @@
-const { z } = require('zod');
-const Report = require('../models/Report');
-const ApiError = require('../utils/ApiError');
-const asyncHandler = require('../utils/asyncHandler');
-const audit = require('../utils/audit');
-const { uploadMany, deleteMany } = require('../services/media');
-const { resolveLocation, createReport } = require('../services/reportService');
-const { safeSendSms } = require('../services/sms');
-const {
+import { z } from 'zod';
+import Report from '../models/Report.js';
+import ApiError from '../utils/ApiError.js';
+import asyncHandler from '../utils/asyncHandler.js';
+import audit from '../utils/audit.js';
+import { uploadMany, deleteMany } from '../services/media.js';
+import { resolveLocation, createReport } from '../services/reportService.js';
+import { safeSendSms } from '../services/sms.js';
+import {
   LGAS, CATEGORIES, SEVERITIES, STATUSES, CHANNELS, TRANSITIONS, REOPEN_TO,
-} = require('../config/constants');
+} from '../config/constants.js';
 
 // Multipart fields arrive as strings; '' should mean "not provided".
 const optNum = (min, max) =>
@@ -175,7 +175,7 @@ const addNote = asyncHandler(async (req, res) => {
   res.status(201).json({ success: true, data: report });
 });
 
-module.exports = {
+export {
   create, list, getOne, updateStatus, assign, addNote,
   createSchema, listSchema, statusSchema, assignSchema, noteSchema,
 };

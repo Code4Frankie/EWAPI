@@ -1,7 +1,7 @@
-const env = require('../src/config/env');
-const connectDb = require('../src/config/db');
-const mongoose = require('mongoose');
-const User = require('../src/models/User');
+import env from '../src/config/env.js';
+import connectDb from '../src/config/db.js';
+import mongoose from 'mongoose';
+import User from '../src/models/User.js';
 
 (async () => {
   if (!env.SEED_ADMIN_EMAIL || !env.SEED_ADMIN_PASSWORD) {

@@ -1,5 +1,5 @@
-const multer = require('multer');
-const ApiError = require('../utils/ApiError');
+import multer from 'multer';
+import ApiError from '../utils/ApiError.js';
 
 const ALLOWED = new Set([
   'image/jpeg', 'image/png', 'image/webp',
@@ -16,4 +16,4 @@ const upload = multer({
       : cb(new ApiError(415, `Unsupported file type: ${file.mimetype}`)),
 });
 
-module.exports = upload.array('media', 5);
+export default upload.array('media', 5);

@@ -1,5 +1,5 @@
-const { cloudinary, configured } = require('../config/cloudinary');
-const ApiError = require('../utils/ApiError');
+import { cloudinary, configured } from '../config/cloudinary.js';
+import ApiError from '../utils/ApiError.js';
 
 function uploadOne(file) {
   return new Promise((resolve, reject) => {
@@ -33,4 +33,4 @@ async function deleteMany(items = []) {
   );
 }
 
-module.exports = { uploadMany, deleteMany };
+export { uploadMany, deleteMany };

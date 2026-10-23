@@ -1,5 +1,5 @@
-const Report = require('../models/Report');
-const asyncHandler = require('../utils/asyncHandler');
+import Report from '../models/Report.js';
+import asyncHandler from '../utils/asyncHandler.js';
 
 const summary = asyncHandler(async (req, res) => {
   const match = {};
@@ -43,4 +43,4 @@ const summary = asyncHandler(async (req, res) => {
   });
 });
 
-module.exports = { summary };
+export { summary };

@@ -1,11 +1,11 @@
 // Usage: npm run import:pu -- path/to/polling_units.csv
 // CSV header: code,name,lga,ward,lat,lng   (no commas inside fields)
 // Get the authoritative list from INEC / your client; the pilot needs it for SMS + voice lookups.
-const fs = require('fs');
-const mongoose = require('mongoose');
-const connectDb = require('../src/config/db');
-const PollingUnit = require('../src/models/PollingUnit');
-const { LGAS } = require('../src/config/constants');
+import fs from 'fs';
+import mongoose from 'mongoose';
+import connectDb from '../src/config/db.js';
+import PollingUnit from '../src/models/PollingUnit.js';
+import { LGAS } from '../src/config/constants.js';
 
 (async () => {
   const file = process.argv[2];

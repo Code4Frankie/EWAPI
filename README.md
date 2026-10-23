@@ -1,6 +1,6 @@
 # ElectWatch 2027 - Backend (Nasarawa State pilot)
 
-Node.js + Express + MongoDB Atlas + Cloudinary. Channels: web form, SMS, hotline/voice.
+Node.js (ES modules) + Express + MongoDB Atlas + Cloudinary. Channels: web form, SMS, hotline/voice.
 
 ## Run it
 ```bash

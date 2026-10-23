@@ -1,12 +1,12 @@
-const Report = require('../models/Report');
-const PollingUnit = require('../models/PollingUnit');
-const User = require('../models/User');
-const ApiError = require('../utils/ApiError');
-const asyncHandler = require('../utils/asyncHandler');
-const { normalizePhone } = require('../utils/phone');
-const { createReport } = require('../services/reportService');
-const { safeSendSms } = require('../services/sms');
-const { SMS_CATEGORY_CODES, CATEGORIES } = require('../config/constants');
+import Report from '../models/Report.js';
+import PollingUnit from '../models/PollingUnit.js';
+import User from '../models/User.js';
+import ApiError from '../utils/ApiError.js';
+import asyncHandler from '../utils/asyncHandler.js';
+import { normalizePhone } from '../utils/phone.js';
+import { createReport } from '../services/reportService.js';
+import { safeSendSms } from '../services/sms.js';
+import { SMS_CATEGORY_CODES, CATEGORIES } from '../config/constants.js';
 
 const HELP =
   'ElectWatch: send EW <PU CODE> <TYPE> <message>. TYPE: VIOLENCE VOTEBUY BALLOT THREAT LATE RESULT SUPPRESS BVAS LOGISTICS OTHER';
@@ -106,4 +106,4 @@ const voiceInbound = asyncHandler(async (req, res) => {
   res.status(201).json({ success: true, data: { accepted: true, refCode: report.refCode } });
 });
 
-module.exports = { smsInbound, voiceInbound };
+export { smsInbound, voiceInbound };

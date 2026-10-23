@@ -1,10 +1,10 @@
-const { z } = require('zod');
-const User = require('../models/User');
-const ApiError = require('../utils/ApiError');
-const asyncHandler = require('../utils/asyncHandler');
-const audit = require('../utils/audit');
-const { normalizePhone } = require('../utils/phone');
-const { ROLES, LGAS } = require('../config/constants');
+import { z } from 'zod';
+import User from '../models/User.js';
+import ApiError from '../utils/ApiError.js';
+import asyncHandler from '../utils/asyncHandler.js';
+import audit from '../utils/audit.js';
+import { normalizePhone } from '../utils/phone.js';
+import { ROLES, LGAS } from '../config/constants.js';
 
 const phoneField = z
   .string()
@@ -78,4 +78,4 @@ const update = asyncHandler(async (req, res) => {
   res.json({ success: true, data: user });
 });
 
-module.exports = { create, list, update, createSchema, updateSchema, listSchema };
+export { create, list, update, createSchema, updateSchema, listSchema };

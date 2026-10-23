@@ -1,4 +1,4 @@
-const env = require('../config/env');
+import env from '../config/env.js';
 
 // Keep outbound messages to one GSM segment (160 chars) to protect the SMS budget.
 const clip = (s) => (s.length > 160 ? `${s.slice(0, 157)}...` : s);
@@ -38,4 +38,4 @@ async function safeSendSms(to, message) {
   }
 }
 
-module.exports = { safeSendSms };
+export { safeSendSms };

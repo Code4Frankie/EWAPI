@@ -1,14 +1,14 @@
-const express = require('express');
-const rateLimit = require('express-rate-limit');
-const { authenticate, authorize } = require('../middleware/auth');
-const validate = require('../middleware/validate');
-const upload = require('../middleware/upload');
-const webhookAuth = require('../middleware/webhookAuth');
-const auth = require('../controllers/authController');
-const users = require('../controllers/userController');
-const reports = require('../controllers/reportController');
-const comms = require('../controllers/commsController');
-const stats = require('../controllers/statsController');
+import express from 'express';
+import rateLimit from 'express-rate-limit';
+import { authenticate, authorize } from '../middleware/auth.js';
+import validate from '../middleware/validate.js';
+import upload from '../middleware/upload.js';
+import webhookAuth from '../middleware/webhookAuth.js';
+import * as auth from '../controllers/authController.js';
+import * as users from '../controllers/userController.js';
+import * as reports from '../controllers/reportController.js';
+import * as comms from '../controllers/commsController.js';
+import * as stats from '../controllers/statsController.js';
 
 const router = express.Router();
 
@@ -50,4 +50,4 @@ router.get('/stats/summary', authenticate, authorize('moderator', 'admin'), stat
 router.post('/webhooks/sms', webhookLimiter, webhookAuth, comms.smsInbound);
 router.post('/webhooks/voice', webhookLimiter, webhookAuth, comms.voiceInbound);
 
-module.exports = router;
+export default router;

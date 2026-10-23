@@ -1,5 +1,5 @@
-const Report = require('../models/Report');
-const PollingUnit = require('../models/PollingUnit');
+import Report from '../models/Report.js';
+import PollingUnit from '../models/PollingUnit.js';
 
 // Fills lga/ward/geo from a known polling unit code when available.
 async function resolveLocation(loc) {
@@ -31,4 +31,4 @@ async function createReport(data) {
   throw new Error('Could not allocate a reference code');
 }
 
-module.exports = { resolveLocation, createReport };
+export { resolveLocation, createReport };

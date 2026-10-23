@@ -1,7 +1,7 @@
-const { ZodError } = require('zod');
-const multer = require('multer');
-const mongoose = require('mongoose');
-const ApiError = require('../utils/ApiError');
+import { ZodError } from 'zod';
+import multer from 'multer';
+import mongoose from 'mongoose';
+import ApiError from '../utils/ApiError.js';
 
 const notFound = (req, _res, next) => next(new ApiError(404, `Not found: ${req.method} ${req.originalUrl}`));
 
@@ -41,4 +41,4 @@ const errorHandler = (err, _req, res, _next) => {
   res.status(status).json({ success: false, message, ...(details && { details }) });
 };
 
-module.exports = { notFound, errorHandler };
+export { notFound, errorHandler };

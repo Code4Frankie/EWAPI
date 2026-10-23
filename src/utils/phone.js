@@ -7,4 +7,4 @@ function normalizePhone(input) {
   if (d.length === 10 && /^[789]/.test(d)) return `+234${d}`;
   return null;
 }
-module.exports = { normalizePhone };
+export { normalizePhone };

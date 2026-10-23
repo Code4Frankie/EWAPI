@@ -6,7 +6,7 @@ function clean(obj) {
     else clean(obj[k]);
   }
 }
-module.exports = (req, _res, next) => {
+export default (req, _res, next) => {
   clean(req.body);
   clean(req.query);
   clean(req.params);

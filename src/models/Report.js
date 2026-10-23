@@ -1,8 +1,8 @@
-const mongoose = require('mongoose');
-const crypto = require('crypto');
-const {
+import mongoose from 'mongoose';
+import crypto from 'crypto';
+import {
   LGAS, CATEGORIES, SEVERITIES, STATUSES, CHANNELS,
-} = require('../config/constants');
+} from '../config/constants.js';
 
 const { Schema } = mongoose;
 
@@ -80,4 +80,4 @@ reportSchema.set('toJSON', {
   },
 });
 
-module.exports = mongoose.model('Report', reportSchema);
+export default mongoose.model('Report', reportSchema);

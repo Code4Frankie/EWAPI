@@ -1,6 +1,7 @@
 {
   "name": "electwatch-backend",
   "version": "0.1.0",
+  "type":"module",
   "private": true,
   "description": "ElectWatch 2027 - Nasarawa State pilot API",
   "main": "src/server.js",
@@ -10,7 +11,9 @@
     "seed": "node scripts/seed.js",
     "import:pu": "node scripts/importPollingUnits.js"
   },
-  "engines": { "node": ">=20" },
+  "engines": {
+    "node": ">=20"
+  },
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "cloudinary": "^2.5.1",
@@ -24,5 +27,6 @@
     "morgan": "^1.10.0",
     "multer": "^2.0.0",
     "zod": "^3.24.1"
-  }
+  },
+  "type": "module"
 }

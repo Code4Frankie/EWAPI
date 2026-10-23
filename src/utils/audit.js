@@ -1,7 +1,7 @@
-const AuditLog = require('../models/AuditLog');
+import AuditLog from '../models/AuditLog.js';
 
 // Fire-and-forget: audit failures must never break the request.
-module.exports = function audit(req, action, entity, entityId, meta = {}) {
+export default function audit(req, action, entity, entityId, meta = {}) {
   AuditLog.create({
     actor: req?.user?._id,
     action,

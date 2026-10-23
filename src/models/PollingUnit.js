@@ -1,5 +1,5 @@
-const mongoose = require('mongoose');
-const { LGAS } = require('../config/constants');
+import mongoose from 'mongoose';
+import { LGAS } from '../config/constants.js';
 
 const schema = new mongoose.Schema(
   {
@@ -15,4 +15,4 @@ const schema = new mongoose.Schema(
   { timestamps: true }
 );
 
-module.exports = mongoose.model('PollingUnit', schema);
+export default mongoose.model('PollingUnit', schema);

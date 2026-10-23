@@ -1,12 +1,12 @@
-const jwt = require('jsonwebtoken');
-const crypto = require('crypto');
-const bcrypt = require('bcryptjs');
-const { z } = require('zod');
-const env = require('../config/env');
-const User = require('../models/User');
-const ApiError = require('../utils/ApiError');
-const asyncHandler = require('../utils/asyncHandler');
-const audit = require('../utils/audit');
+import jwt from 'jsonwebtoken';
+import crypto from 'crypto';
+import bcrypt from 'bcryptjs';
+import { z } from 'zod';
+import env from '../config/env.js';
+import User from '../models/User.js';
+import ApiError from '../utils/ApiError.js';
+import asyncHandler from '../utils/asyncHandler.js';
+import audit from '../utils/audit.js';
 
 const MAX_FAILED = 5;
 const LOCK_MINUTES = 15;
@@ -90,4 +90,4 @@ const logout = asyncHandler(async (req, res) => {
 
 const me = (req, res) => res.json({ success: true, data: req.user });
 
-module.exports = { login, refresh, logout, me, loginSchema, refreshSchema };
+export { login, refresh, logout, me, loginSchema, refreshSchema };

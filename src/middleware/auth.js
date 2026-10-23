@@ -1,8 +1,8 @@
-const jwt = require('jsonwebtoken');
-const env = require('../config/env');
-const User = require('../models/User');
-const ApiError = require('../utils/ApiError');
-const asyncHandler = require('../utils/asyncHandler');
+import jwt from 'jsonwebtoken';
+import env from '../config/env.js';
+import User from '../models/User.js';
+import ApiError from '../utils/ApiError.js';
+import asyncHandler from '../utils/asyncHandler.js';
 
 // Loads the user on every request so deactivation/role changes apply immediately.
 const authenticate = asyncHandler(async (req, _res, next) => {
@@ -26,4 +26,4 @@ const authenticate = asyncHandler(async (req, _res, next) => {
 const authorize = (...roles) => (req, _res, next) =>
   roles.includes(req.user.role) ? next() : next(new ApiError(403, 'Insufficient permissions'));
 
-module.exports = { authenticate, authorize };
+export { authenticate, authorize };
