@@ -3,9 +3,11 @@ import asyncHandler from '../utils/asyncHandler.js';
 
 const summary = asyncHandler(async (req, res) => {
   const match = {};
-  if (req.user.role === 'moderator' && req.user.assignedLgas?.length) {
-    match['location.lga'] = { $in: req.user.assignedLgas };
+  if (req.user.role === 'moderator' && req.user.assignedStates?.length) {
+    match['location.state'] = { $in: req.user.assignedStates };
   }
+  const only = typeof req.query.state === 'string' ? req.query.state : null;
+  if (only) match['location.state'] = only;
   const count = (field) => [{ $group: { _id: `$${field}`, count: { $sum: 1 } } }, { $sort: { count: -1 } }];
 
   const [r] = await Report.aggregate([
@@ -17,6 +19,7 @@ const summary = asyncHandler(async (req, res) => {
         byCategory: count('category'),
         bySeverity: count('severity'),
         byChannel: count('channel'),
+        byState: count('location.state'),
         byLga: count('location.lga'),
         unverifiedSources: [{ $match: { reporterVerified: false } }, { $count: 'n' }],
         openCritical: [
@@ -38,7 +41,8 @@ const summary = asyncHandler(async (req, res) => {
       byCategory: flat(r.byCategory),
       bySeverity: flat(r.bySeverity),
       byChannel: flat(r.byChannel),
-      byLga: flat(r.byLga),
+      byState: flat(r.byState),
+      byLga: only ? flat(r.byLga) : {},
     },
   });
 });

@@ -9,6 +9,7 @@ import * as users from '../controllers/userController.js';
 import * as reports from '../controllers/reportController.js';
 import * as comms from '../controllers/commsController.js';
 import * as stats from '../controllers/statsController.js';
+import { GEO } from '../config/geo.js';
 
 const router = express.Router();
 
@@ -20,6 +21,12 @@ const uploadLimiter = rateLimit({ windowMs: 60 * 1000, limit: 20, standardHeader
 const webhookLimiter = rateLimit({ windowMs: 60 * 1000, limit: 120, standardHeaders: true, legacyHeaders: false });
 
 router.get('/health', (_req, res) => res.json({ success: true, data: { status: 'ok', time: new Date() } }));
+
+// Reference data for the state -> LGA dropdowns (static, safe to cache)
+router.get('/geo', (_req, res) => {
+  res.set('Cache-Control', 'public, max-age=86400');
+  res.json({ success: true, data: GEO });
+});
 
 // Auth
 router.post('/auth/login', authLimiter, validate({ body: auth.loginSchema }), auth.login);

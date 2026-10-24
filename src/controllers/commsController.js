@@ -53,7 +53,7 @@ const smsInbound = asyncHandler(async (req, res) => {
     category,
     severity: 'medium', // moderators triage; SMS senders can't self-assign severity
     description: m[3].trim().slice(0, 2000),
-    location: { lga: pu.lga, ward: pu.ward, pollingUnitCode: pu.code, pollingUnit: pu._id, geo: pu.geo },
+    location: { state: pu.state, lga: pu.lga, ward: pu.ward, pollingUnitCode: pu.code, pollingUnit: pu._id, geo: pu.geo },
     reporter: reporter?._id,
     reporterPhone: from,
     reporterVerified: Boolean(reporter),
@@ -91,8 +91,8 @@ const voiceInbound = asyncHandler(async (req, res) => {
     severity: 'medium',
     description: (transcript || 'Voice report received - transcript pending. Moderator to listen to recording.').slice(0, 2000),
     location: pu
-      ? { lga: pu.lga, ward: pu.ward, pollingUnitCode: pu.code, pollingUnit: pu._id, geo: pu.geo }
-      : { lga: reporter?.assignedLgas?.[0] || 'Lafia', pollingUnitCode: puCode ? String(puCode).toUpperCase() : undefined },
+      ? { state: pu.state, lga: pu.lga, ward: pu.ward, pollingUnitCode: pu.code, pollingUnit: pu._id, geo: pu.geo }
+      : { unresolved: true, pollingUnitCode: puCode ? String(puCode).toUpperCase() : undefined },
     reporter: reporter?._id,
     reporterPhone: from,
     reporterVerified: Boolean(reporter),
@@ -100,7 +100,7 @@ const voiceInbound = asyncHandler(async (req, res) => {
     media: recordingUrl && /^https:\/\//.test(String(recordingUrl))
       ? [{ url: String(recordingUrl), resourceType: 'audio', bytes: undefined }]
       : [],
-    history: pu ? [] : [{ from: 'new', to: 'new', note: 'Location unresolved from call. Confirm LGA and polling unit.' }],
+    history: pu ? [] : [{ from: 'new', to: 'new', note: 'Location unresolved from call. A national moderator should confirm state, LGA and polling unit.' }],
   });
 
   res.status(201).json({ success: true, data: { accepted: true, refCode: report.refCode } });

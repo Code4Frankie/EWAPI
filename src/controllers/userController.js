@@ -4,7 +4,8 @@ import ApiError from '../utils/ApiError.js';
 import asyncHandler from '../utils/asyncHandler.js';
 import audit from '../utils/audit.js';
 import { normalizePhone } from '../utils/phone.js';
-import { ROLES, LGAS } from '../config/constants.js';
+import { ROLES } from '../config/constants.js';
+import { STATES } from '../config/geo.js';
 
 const phoneField = z
   .string()
@@ -21,7 +22,7 @@ const createSchema = z.object({
   phone: phoneField,
   password: z.string().min(10).max(128),
   role: z.enum(ROLES).default('observer'),
-  assignedLgas: z.array(z.enum(LGAS)).default([]),
+  assignedStates: z.array(z.enum(STATES)).default([]),
 });
 
 const updateSchema = z
@@ -29,7 +30,7 @@ const updateSchema = z
     name: z.string().trim().min(2).max(120),
     phone: phoneField,
     role: z.enum(ROLES),
-    assignedLgas: z.array(z.enum(LGAS)),
+    assignedStates: z.array(z.enum(STATES)),
     isActive: z.boolean(),
     password: z.string().min(10).max(128),
   })

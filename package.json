@@ -2,7 +2,7 @@
   "name": "electwatch-backend",
   "version": "0.1.0",
   "private": true,
-  "description": "Voter Witness 2027 - Nasarawa State pilot API",
+  "description": "Voter Witness 2027 - nationwide API",
   "main": "src/server.js",
   "scripts": {
     "start": "node src/server.js",

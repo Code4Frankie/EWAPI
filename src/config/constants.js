@@ -1,9 +1,3 @@
-// Nasarawa State's 13 Local Government Areas
-const LGAS = [
-  'Akwanga', 'Awe', 'Doma', 'Karu', 'Keana', 'Keffi', 'Kokona',
-  'Lafia', 'Nasarawa', 'Nasarawa Egon', 'Obi', 'Toto', 'Wamba',
-];
-
 const ROLES = ['observer', 'moderator', 'admin'];
 
 const CATEGORIES = [
@@ -41,6 +35,6 @@ const SMS_CATEGORY_CODES = {
 };
 
 export {
-  LGAS, ROLES, CATEGORIES, SEVERITIES, STATUSES, CHANNELS,
+  ROLES, CATEGORIES, SEVERITIES, STATUSES, CHANNELS,
   TRANSITIONS, REOPEN_TO, SMS_CATEGORY_CODES,
 };

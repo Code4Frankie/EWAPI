@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
-import { ROLES, LGAS } from '../config/constants.js';
+import { ROLES } from '../config/constants.js';
+import { STATES } from '../config/geo.js';
 
 const userSchema = new mongoose.Schema(
   {
@@ -9,7 +10,7 @@ const userSchema = new mongoose.Schema(
     phone: { type: String, unique: true, sparse: true }, // +234...
     passwordHash: { type: String, required: true, select: false },
     role: { type: String, enum: ROLES, default: 'observer', index: true },
-    assignedLgas: [{ type: String, enum: LGAS }], // moderators: limits what they see (empty = all)
+    assignedStates: [{ type: String, enum: STATES }], // moderators: limits what they see (empty = national)
     isActive: { type: Boolean, default: true },
     failedLogins: { type: Number, default: 0, select: false },
     lockUntil: { type: Date, select: false },

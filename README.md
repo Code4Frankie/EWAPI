@@ -1,4 +1,4 @@
-# Voter Witness 2027 - Backend (Nasarawa State pilot)
+# Voter Witness 2027 - Backend
 
 Node.js (ES modules) + Express + MongoDB Atlas + Cloudinary. Channels: web form, SMS, hotline/voice.
 
@@ -7,13 +7,13 @@ Node.js (ES modules) + Express + MongoDB Atlas + Cloudinary. Channels: web form,
 cp .env.example .env      # fill in MONGODB_URI, JWT secrets, WEBHOOK_SECRET, Cloudinary
 npm install
 npm run seed              # creates the first admin from SEED_ADMIN_*
-npm run import:pu -- polling_units.csv   # code,name,lga,ward,lat,lng
+npm run import:pu -- polling_units.csv   # code,name,state,lga,ward,lat,lng
 npm run dev
 ```
 
 ## Roles
 - **observer**: submits reports, sees only their own
-- **moderator**: reviews reports (scoped to `assignedLgas`, or all if empty), changes status, assigns, adds notes
+- **moderator**: reviews reports (scoped to `assignedStates`, or national if empty), changes status, assigns, adds notes
 - **admin**: everything, plus user management and reopening closed reports
 
 ## API (all under /api, JSON responses `{ success, data, meta? }`)
@@ -41,5 +41,5 @@ Replies are clipped to one 160-char segment to protect the SMS budget. Senders w
 ## Before go-live
 - Confirm the SMS and voice provider, then adapt `services/sms.js` and the field names in `commsController` to their payloads.
 - Load the real polling-unit list; SMS/voice reports need it to resolve location.
-- Voice reports without a resolvable polling unit are parked with a moderator note and a placeholder LGA.
+- Voice reports without a resolvable polling unit are parked as "unresolved" (no state), visible to admins and national moderators only.
 - Not included (per proposal scope): penetration testing, automated tests, backups config (use Atlas backups), uptime monitoring.

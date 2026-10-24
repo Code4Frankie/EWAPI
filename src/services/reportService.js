@@ -9,6 +9,7 @@ async function resolveLocation(loc) {
     if (pu) {
       out.pollingUnit = pu._id;
       out.pollingUnitCode = pu.code;
+      out.state = pu.state;
       out.lga = pu.lga;
       out.ward = pu.ward || out.ward;
       if (!out.geo && pu.geo?.coordinates) out.geo = pu.geo;

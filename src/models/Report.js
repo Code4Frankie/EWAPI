@@ -1,7 +1,8 @@
 import mongoose from 'mongoose';
 import crypto from 'crypto';
+import { STATES } from '../config/geo.js';
 import {
-  LGAS, CATEGORIES, SEVERITIES, STATUSES, CHANNELS,
+  CATEGORIES, SEVERITIES, STATUSES, CHANNELS,
 } from '../config/constants.js';
 
 const { Schema } = mongoose;
@@ -42,7 +43,9 @@ const reportSchema = new Schema(
     status: { type: String, enum: STATUSES, default: 'new', index: true },
 
     location: {
-      lga: { type: String, enum: LGAS, required: true },
+      state: { type: String, enum: STATES, required() { return !this.location?.unresolved; } },
+      lga: { type: String, required() { return !this.location?.unresolved; } },
+      unresolved: { type: Boolean, default: false }, // voice report awaiting a moderator to place it
       ward: { type: String, trim: true },
       pollingUnitCode: { type: String, uppercase: true, trim: true },
       pollingUnit: { type: Schema.Types.ObjectId, ref: 'PollingUnit' },
@@ -64,7 +67,7 @@ const reportSchema = new Schema(
   { timestamps: true }
 );
 
-reportSchema.index({ 'location.lga': 1, createdAt: -1 });
+reportSchema.index({ 'location.state': 1, 'location.lga': 1, createdAt: -1 });
 reportSchema.index({ status: 1, createdAt: -1 });
 reportSchema.index({ 'location.geo': '2dsphere' });
 reportSchema.index({ description: 'text' });

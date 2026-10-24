@@ -6,8 +6,9 @@ import audit from '../utils/audit.js';
 import { uploadMany, deleteMany } from '../services/media.js';
 import { resolveLocation, createReport } from '../services/reportService.js';
 import { safeSendSms } from '../services/sms.js';
+import { STATES, isValidLga } from '../config/geo.js';
 import {
-  LGAS, CATEGORIES, SEVERITIES, STATUSES, CHANNELS, TRANSITIONS, REOPEN_TO,
+  CATEGORIES, SEVERITIES, STATUSES, CHANNELS, TRANSITIONS, REOPEN_TO,
 } from '../config/constants.js';
 
 // Multipart fields arrive as strings; '' should mean "not provided".
@@ -20,20 +21,22 @@ const createSchema = z.object({
   category: z.enum(CATEGORIES),
   severity: z.enum(SEVERITIES).default('medium'),
   description: z.string().trim().min(10).max(2000),
-  lga: z.enum(LGAS),
+  state: z.enum(STATES),
+  lga: z.string().trim().min(1).max(80),
   ward: optStr(100),
   pollingUnitCode: optStr(40),
   latitude: optNum(-90, 90),
   longitude: optNum(-180, 180),
   occurredAt: z.preprocess((v) => (v === '' ? undefined : v), z.coerce.date().optional()),
-});
+}).refine((d) => isValidLga(d.state, d.lga), { message: 'LGA does not belong to that state', path: ['lga'] });
 
 const listSchema = z.object({
   status: z.enum(STATUSES).optional(),
   category: z.enum(CATEGORIES).optional(),
   severity: z.enum(SEVERITIES).optional(),
   channel: z.enum(CHANNELS).optional(),
-  lga: z.enum(LGAS).optional(),
+  state: z.enum(STATES).optional(),
+  lga: z.string().trim().max(80).optional(),
   from: z.coerce.date().optional(),
   to: z.coerce.date().optional(),
   q: z.string().trim().max(100).optional(),
@@ -51,8 +54,8 @@ const noteSchema = z.object({ note: z.string().trim().min(1).max(1000) });
 // Who can see what: observers -> own reports; moderators -> their LGAs (or all if none set); admins -> all.
 function scopeFilter(user) {
   if (user.role === 'observer') return { reporter: user._id };
-  if (user.role === 'moderator' && user.assignedLgas?.length) {
-    return { 'location.lga': { $in: user.assignedLgas } };
+  if (user.role === 'moderator' && user.assignedStates?.length) {
+    return { 'location.state': { $in: user.assignedStates } };
   }
   return {};
 }
@@ -66,6 +69,7 @@ async function findAccessible(req) {
 const create = asyncHandler(async (req, res) => {
   const b = req.body;
   const location = await resolveLocation({
+    state: b.state,
     lga: b.lga,
     ward: b.ward,
     pollingUnitCode: b.pollingUnitCode,
@@ -97,18 +101,19 @@ const create = asyncHandler(async (req, res) => {
 });
 
 const list = asyncHandler(async (req, res) => {
-  const { status, category, severity, channel, lga, from, to, q, page, limit } = req.query;
+  const { status, category, severity, channel, state, lga, from, to, q, page, limit } = req.query;
   const filter = { ...scopeFilter(req.user) };
   if (status) filter.status = status;
   if (category) filter.category = category;
   if (severity) filter.severity = severity;
   if (channel) filter.channel = channel;
-  if (lga) {
+  if (state) {
     // keep any scope restriction: intersect rather than overwrite
-    const scoped = filter['location.lga']?.$in;
-    if (scoped && !scoped.includes(lga)) return res.json({ success: true, data: [], meta: { page, limit, total: 0 } });
-    filter['location.lga'] = lga;
+    const scoped = filter['location.state']?.$in;
+    if (scoped && !scoped.includes(state)) return res.json({ success: true, data: [], meta: { page, limit, total: 0 } });
+    filter['location.state'] = state;
   }
+  if (lga) filter['location.lga'] = lga;
   if (from || to) filter.createdAt = { ...(from && { $gte: from }), ...(to && { $lte: to }) };
   if (q) filter.$text = { $search: q };
 
