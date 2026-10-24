@@ -13,7 +13,7 @@ import User from '../src/models/User.js';
     console.log('Admin already exists, nothing to do.');
   } else {
     await User.create({
-      name: 'ElectWatch Admin',
+      name: 'Voter Witness Admin',
       email: env.SEED_ADMIN_EMAIL,
       role: 'admin',
       passwordHash: await User.hashPassword(env.SEED_ADMIN_PASSWORD),

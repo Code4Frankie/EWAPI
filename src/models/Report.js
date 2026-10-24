@@ -27,7 +27,7 @@ function generateRefCode() {
   const bytes = crypto.randomBytes(8);
   let s = '';
   for (const b of bytes) s += ALPHABET[b % ALPHABET.length];
-  return `EW-${s.slice(0, 4)}-${s.slice(4)}`;
+  return `VW-${s.slice(0, 4)}-${s.slice(4)}`;
 }
 
 const reportSchema = new Schema(

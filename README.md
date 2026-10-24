@@ -1,4 +1,4 @@
-# ElectWatch 2027 - Backend (Nasarawa State pilot)
+# Voter Witness 2027 - Backend (Nasarawa State pilot)
 
 Node.js (ES modules) + Express + MongoDB Atlas + Cloudinary. Channels: web form, SMS, hotline/voice.
 
@@ -34,7 +34,7 @@ npm run dev
 Status flow: `new -> under_review -> verified -> escalated/resolved`; `rejected` and `escalated` require a note.
 
 ## SMS format
-`EW <POLLING_UNIT_CODE> <TYPE> <message>`, e.g. `EW 26-05-03-012 VIOLENCE Thugs at the gate`
+`VW <POLLING_UNIT_CODE> <TYPE> <message>`, e.g. `VW 26-05-03-012 VIOLENCE Thugs at the gate`
 TYPE: VIOLENCE VOTEBUY BALLOT THREAT LATE RESULT SUPPRESS BVAS LOGISTICS OTHER.
 Replies are clipped to one 160-char segment to protect the SMS budget. Senders whose phone matches a registered user are marked verified; others are flagged `reporterVerified: false`.
 

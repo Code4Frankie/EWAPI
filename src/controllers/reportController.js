@@ -155,7 +155,7 @@ const updateStatus = asyncHandler(async (req, res) => {
 
   // One short SMS back to unregistered/SMS reporters on final outcomes only.
   if (report.channel === 'sms' && report.reporterPhone && ['verified', 'rejected', 'resolved'].includes(to)) {
-    safeSendSms(report.reporterPhone, `ElectWatch ${report.refCode}: your report is now ${to.replace('_', ' ')}.`);
+    safeSendSms(report.reporterPhone, `Voter Witness ${report.refCode}: your report is now ${to.replace('_', ' ')}.`);
   }
   res.json({ success: true, data: report });
 });

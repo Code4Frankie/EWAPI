@@ -9,9 +9,9 @@ import { safeSendSms } from '../services/sms.js';
 import { SMS_CATEGORY_CODES, CATEGORIES } from '../config/constants.js';
 
 const HELP =
-  'ElectWatch: send EW <PU CODE> <TYPE> <message>. TYPE: VIOLENCE VOTEBUY BALLOT THREAT LATE RESULT SUPPRESS BVAS LOGISTICS OTHER';
+  'Voter Witness: send VW <PU CODE> <TYPE> <message>. TYPE: VIOLENCE VOTEBUY BALLOT THREAT LATE RESULT SUPPRESS BVAS LOGISTICS OTHER';
 
-const SMS_PATTERN = /^EW\s+(\S+)\s+(\S+)\s+([\s\S]{5,})$/i;
+const SMS_PATTERN = /^(?:VW|EW)\s+(\S+)\s+(\S+)\s+([\s\S]{5,})$/i;
 
 // Providers differ on field names, so accept the common ones.
 const pick = (body, ...keys) => keys.map((k) => body[k]).find((v) => v != null && v !== '');
@@ -42,7 +42,7 @@ const smsInbound = asyncHandler(async (req, res) => {
 
   const pu = await PollingUnit.findOne({ code: m[1].toUpperCase() }).lean();
   if (!pu) {
-    await safeSendSms(from, `ElectWatch: unknown polling unit code ${m[1].toUpperCase().slice(0, 20)}. Check and resend.`);
+    await safeSendSms(from, `Voter Witness: unknown polling unit code ${m[1].toUpperCase().slice(0, 20)}. Check and resend.`);
     return res.json({ success: true, data: { accepted: false, reason: 'unknown_polling_unit' } });
   }
 
@@ -59,7 +59,7 @@ const smsInbound = asyncHandler(async (req, res) => {
     reporterVerified: Boolean(reporter),
   });
 
-  await safeSendSms(from, `ElectWatch: report received. Ref ${report.refCode}`);
+  await safeSendSms(from, `Voter Witness: report received. Ref ${report.refCode}`);
   res.status(201).json({ success: true, data: { accepted: true, refCode: report.refCode } });
 });
 

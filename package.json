@@ -1,9 +1,8 @@
 {
   "name": "electwatch-backend",
   "version": "0.1.0",
-  "type":"module",
   "private": true,
-  "description": "ElectWatch 2027 - Nasarawa State pilot API",
+  "description": "Voter Witness 2027 - Nasarawa State pilot API",
   "main": "src/server.js",
   "scripts": {
     "start": "node src/server.js",

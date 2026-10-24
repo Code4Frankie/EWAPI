@@ -4,7 +4,7 @@ import app from './app.js';
 
 (async () => {
   await connectDb();
-  const server = app.listen(env.PORT, () => console.log(`ElectWatch API on :${env.PORT} (${env.NODE_ENV})`));
+  const server = app.listen(env.PORT, () => console.log(`Voter Witness API on :${env.PORT} (${env.NODE_ENV})`));
 
   const shutdown = () => {
     console.log('Shutting down...');
